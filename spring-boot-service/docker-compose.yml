@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - SPRING_DATA_ELASTICSEARCH_CLUSTER_NAMES=docker-cluster
+      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
+      - SPRING_DATA_ELASTICSEARCH_REPOSITORIES_ENABLED=true
+
+      # GraphQL Properties
+      - SPRING_GRAPHQL_CORS_ALLOWED_ORIGINS=*
+      - SPRING_GRAPHQL_GRAPHIQL_ENABLED=true
+      - SPRING_GRAPHQL_GRAPHIQL_PATH=/graphiql
+      - SPRING_GRAPHQL_PATH=/graphql
+      - SPRING_GRAPHQL_SCHEMA_LOCATIONS=classpath:graphql
+    restart: always  # Ensure restart in case of failure
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.0
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+      timeout: 5s
+
+  kibana:
+    image: kibana:7.17.9
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200

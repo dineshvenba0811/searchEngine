@@ -1,0 +1,63 @@
+type Query{
+    getActivities(title:String,specialOffer:Boolean,minPrice:Int,maxPrice:Int):[Activity]
+    searchAutoSuggest(keyword:String):[AutoSuggestResult]
+    getAllActivities:[Activity]
+    getActivityById(id:Int):Activity
+}
+
+type Mutation{
+    insertActivity(activity:ActivityInput):Int
+    insertSupplier(supplier:SupplierInput):Int
+}
+
+type AutoSuggestResult{
+    id:Int
+    title:String
+}
+
+type Activity{
+    id:Int!
+    title:String!
+    price:Int!
+    currency:String!
+    rating:Float!
+    specialOffer:Boolean!
+    supplierId:Supplier!
+}
+
+type Supplier{
+    id:Int
+    name:String!
+    address:String!
+    zip:Int!
+    city:String!
+    country:String!
+}
+
+input ActivityInput{
+    id:Int!
+    title:String!
+    price:Int!
+    currency:String!
+    rating:Float!
+    specialOffer:Boolean!
+    supplierId:Int!
+}
+
+input ActivityFilterInput{
+    title:String!
+    price:Int!
+    currency:String!
+    rating:Float!
+    specialOffer:Boolean!
+}
+
+
+input SupplierInput{
+    id:Int
+    name:String!
+    address:String!
+    zip:Int!
+    city:String!
+    country:String!
+}
