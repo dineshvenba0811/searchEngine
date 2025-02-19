@@ -119,14 +119,6 @@ Project Testing Documentation
         testGetActivity_ActivityNotFound: Ensures that if an activity is not found, the service throws the correct exception.
         testGetActivity_SupplierNotFound: Ensures that if an activity exists, but its supplier is missing, an error is thrown.
 
-Enhancement:
-
-1.	We can implement a login and logout feature, allowing users to sign in and out for a more personalized search experience.
-    By creating a user profile, we can track search history and provide recommendations based on previous searches using a machine learning-based algorithm.
-2.  Another enhancement could be recommendations based on similar users’ searches. 
-    By analyzing what other users with similar interests have searched for, we can suggest relevant activities and suppliers, improving the overall user experience.
-3.	I have written unit test cases for major functions, including testing activities retrieval, fetching all activities, and searching activities by title.
-4.	Additionally, we can expand test coverage by writing edge test cases, ensuring all scenarios are accounted for. This includes filtering by minimum and maximum price, applying special offers, and handling other possible filtering conditions.
 
 
 
